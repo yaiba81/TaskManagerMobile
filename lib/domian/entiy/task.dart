@@ -4,9 +4,9 @@ class Task {
   final String taskType;
   final String taskName;
   final String details;
-  final String dateTimeCreated;
-  final String dateTimeDue;
-  final String dateTimeAssigned;
+  final DateTime dateTimeCreated;
+  final DateTime dateTimeDue;
+  final DateTime dateTimeAssigned;
 
   Task({
     this.id,

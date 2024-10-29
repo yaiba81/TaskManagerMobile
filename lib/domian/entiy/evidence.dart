@@ -3,7 +3,7 @@ class Evidence {
   final String taskIdentifier;
   final String evidenceString;
   final String evidenceDescription;
-  final String dateTimeCreated;
+  final DateTime dateTimeCreated;
 
   Evidence({
     this.id,
