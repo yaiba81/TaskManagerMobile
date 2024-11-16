@@ -26,7 +26,7 @@ class EvidenceRepository {
     await db.execute('''
       CREATE TABLE evidence(
         id INTEGER PRIMARY KEY,
-        taskIdentifier INTEGER,
+        taskIdentifier TEXT,
         evidenceString, TEXT,
         evidenceDescription TEXT,
         dateTimeCreated TEXT

@@ -4,9 +4,9 @@ import 'package:intl/intl.dart';
 
 class TaskList extends StatelessWidget {
   final List<Task> tasks;
-  final Function removeTask;
+  final Function taskInfo;
 
-  const TaskList(this.tasks, this.removeTask, {super.key});
+  const TaskList(this.tasks, this.taskInfo, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class TaskList extends StatelessWidget {
                   height: constraints.maxHeight * 0.6,
                   child: Image.asset(
                     'assets/images/waiting.png',
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                   ),
                 ),
               ],
@@ -36,33 +36,45 @@ class TaskList extends StatelessWidget {
                   vertical: 8,
                   horizontal: 5,
                 ),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 30,
-                    child: Padding(
-                      padding: const EdgeInsets.all(6),
-                      child: FittedBox(
-                        child: Text('\$${tasks[index].taskType}'),
+                child: GestureDetector(
+                  onTap: () => taskInfo(tasks[index].id),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: tasks[index]
+                              .dateTimeDue
+                              .isBefore(DateTime.now())
+                          ? Colors.red
+                          : DateFormat('yyyy-MM-dd')
+                                  .parse(
+                                      tasks[index].dateTimeAssigned.toString())
+                                  .isAtSameMomentAs(DateFormat('yyyy-MM-dd')
+                                      .parse(DateTime.now().toString()))
+                              ? Colors.green
+                              : Colors.amber,
+                      radius: 30,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6),
+                        child: FittedBox(
+                          child: Text(tasks[index]
+                                  .dateTimeDue
+                                  .isBefore(DateTime.now())
+                              ? 'DUE'
+                              : DateFormat('yyyy-MM-dd')
+                                      .parse(tasks[index]
+                                          .dateTimeAssigned
+                                          .toString())
+                                      .isAtSameMomentAs(DateFormat('yyyy-MM-dd')
+                                          .parse(DateTime.now().toString()))
+                                  ? 'NEW'
+                                  : 'WARN'),
+                        ),
                       ),
                     ),
+                    title: Text(
+                      tasks[index].taskName,
+                      style: Theme.of(context).textTheme.labelLarge,
+                    ),
                   ),
-                  title: Text(
-                    tasks[index].taskName,
-                    style: Theme.of(context).textTheme.labelLarge,
-                  ),
-                  subtitle: Text(
-                    DateFormat.yMMMd().format(tasks[index].dateTimeAssigned),
-                  ),
-                  trailing: MediaQuery.of(context).size.width > 360
-                      ? TextButton.icon(
-                          onPressed: () => removeTask(tasks[index].id),
-                          icon: const Icon(Icons.update),
-                          label: const Text('Update'))
-                      : IconButton(
-                          icon: const Icon(Icons.delete),
-                          color: Theme.of(context).colorScheme.error,
-                          onPressed: () => removeTask(tasks[index].id),
-                        ),
                 ),
               );
             },

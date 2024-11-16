@@ -28,10 +28,12 @@ class TaskRepository {
         taskName TEXT,
         taskType, TEXT,
         details TEXT,
+        status TEXT,
         dateTimeCreated TEXT,
         dateTimeDue TEXT,
         dateTimeAssigned TEXT,
-        taskIdentifier TEXT
+        taskIdentifier TEXT,
+        dateTimeClosed TEXT
       )
  ''');
   }
